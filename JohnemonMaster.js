@@ -10,23 +10,37 @@ class JohnemonMaster {
 
 
   renameJohnemon(johnemon) {
-    
-  }
 
+  }
 
 
   healJohnemon(johnemon) {
-    
+    if (this.healingItems === 0) {
+      console.log("No healing items left!");
+      return;
+    }
+    this.healingItems--;
+    // TODO : Redeclare health to it's original value
   }
 
   reviveJohnemon(johnemon) {
-    
+    if (this.reviveItems === 0) {
+      console.log("No healing items left!");
+      return;
+    }
+    this.reviveItems--;
+    // TODO : Redeclare health to it's original value
   }
 
 
   releaseJohnemon(johnemon) {
     
   }
+
+  catchJohnemon(johnemon){ 
+
+  }
+
 
   showCollection() {
     

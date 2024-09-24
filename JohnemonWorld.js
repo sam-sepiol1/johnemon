@@ -2,7 +2,7 @@ const JohnemonArena = require("./JohnemonArena");
 const Johnemon = require("./Johnemon");
 const rl = require('./readlineInterface');
 
-const arena = new arena();
+const arena = new JohnemonArena();
 
 class JohnemonWorld {
 	constructor() {
@@ -43,7 +43,6 @@ class JohnemonWorld {
                 return;
             }
             
-			console.log("Battle has started");
             arena.startBattle();
             return;
 		});

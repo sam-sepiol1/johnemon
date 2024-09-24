@@ -1,4 +1,4 @@
-
+const rl = require ('./readlineInterface');
 
 class JohnemonArena {
   constructor(johnemon_1, johnemon_2) {
@@ -8,7 +8,6 @@ class JohnemonArena {
   startBattle() {
     console.log('Battle has started');
     rl.close();
-    
   }
 
   chooseJohnemon() {

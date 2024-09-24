@@ -2,11 +2,13 @@
 
 class JohnemonArena {
   constructor(johnemon_1, johnemon_2) {
-
+    
   }
 
   startBattle() {
-
+    console.log('Battle has started');
+    rl.close();
+    
   }
 
   chooseJohnemon() {

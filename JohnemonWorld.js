@@ -31,7 +31,7 @@ class JohnemonWorld {
 	}
 
 	askForFight() {
-		rl.question("Do you want to fight the Johnemon ? (y/n)", (answer) => {
+		rl.question("Do you want to fight the Johnemon ? (y/n)  :  ", (answer) => {
 			if (!['y', 'n'].includes(answer)) {
 				console.log("Invalid answer. Choose a number in the list");
                 this.askForFight();
@@ -42,7 +42,7 @@ class JohnemonWorld {
                 this.oneDayPasses();
                 return;
             }
-            
+
             arena.startBattle();
             return;
 		});

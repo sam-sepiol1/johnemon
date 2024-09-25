@@ -1,18 +1,26 @@
+const { log } = require('console');
 const rl = require ('./readlineInterface');
+const data = require ('./gameState.json');
+const johnemonMaster = require('./JohnemonMaster.js');
+
+const player = new johnemonMaster(data.name, data.johnemonCollection, data.healingItems, data.reviveItems, data.JOHNEBALLS);
+
+
 
 class JohnemonArena {
+
   constructor(johnemon_1, johnemon_2) {
+
+  }
+  chooseJohnemon() {
+    console.log(player.name);
     
   }
 
   startBattle() {
-    console.log('Battle has started');
-    rl.close();
+
   }
 
-  chooseJohnemon() {
-  	
-  }
 
   startRound(selectedJohnemon) {
   	
@@ -51,5 +59,8 @@ class JohnemonArena {
     
   }
 }
+
+const arena = new JohnemonArena();
+arena.chooseJohnemon()
 
 module.exports = JohnemonArena

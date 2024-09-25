@@ -1,12 +1,14 @@
 
 class JohnemonMaster {
-  constructor(name) {
+  constructor(name, johnemonCollection, healingItems, reviveItems, JOHNEBALLS) {
     this.name = name;
-    this.johnemonCollection = [];
-    this.healingItems = 5; // Initial number of healing items
-    this.reviveItems = 3; // Initial number of revive items
-    this.JOHNEBALLS = 10; // Initial number of JOHNEBALLS
-  }
+    this.johnemonCollection = johnemonCollection || [];
+    this.healingItems = healingItems || 5; 
+    this.reviveItems = reviveItems || 3; 
+    this.JOHNEBALLS = JOHNEBALLS || 10; 
+    }
+
+  
   renameJohnemon(johnemon) {
     const index = this.johnemonCollection.indexOf(johnemon);
     if (index === -1) {
@@ -14,8 +16,8 @@ class JohnemonMaster {
       return;
     }
 
-    this.johnemonCollection[index].name = johnemon;
-    console.log(`The new name of your Johnemon is now ${johnemon}`);
+    this.johnemonCollection[index].name = johnemon.name;
+    console.log(`The new name of your Johnemon is now ${johnemon.name}`);
     
   }
 

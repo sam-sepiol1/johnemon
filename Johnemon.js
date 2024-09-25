@@ -5,7 +5,6 @@ const filePath = path.join(__dirname, 'names.txt');
 
 let names = [];
 
-// Push all the names from the names.txt into an array.
 function getNames() {
     try {
         const data = fs.readFileSync(filePath, 'utf8');

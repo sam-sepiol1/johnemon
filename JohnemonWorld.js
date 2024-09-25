@@ -1,8 +1,6 @@
 const JohnemonArena = require("./JohnemonArena");
 const Johnemon = require("./Johnemon");
-const rl = require('./readlineInterface');
-
-const arena = new JohnemonArena();
+const rl = require("./readlineInterface");
 
 class JohnemonWorld {
 	constructor() {
@@ -11,7 +9,6 @@ class JohnemonWorld {
 	}
 
 	oneDayPasses() {
-		console.log("One day has passed");
 		this.randomizeEvent();
 	}
 
@@ -21,36 +18,33 @@ class JohnemonWorld {
 		switch (randomEvent) {
 			case 0:
 				console.log("Nothing happened, the day passes");
-                this.oneDayPasses();
+				this.oneDayPasses();
 				break;
 			case 1:
-				console.log("A wild Johnemon appears!");
-                this.askForFight();
+				const wildJohnemon = new Johnemon();
+				console.log(`A wild ${wildJohnemon.name} of level : ${wildJohnemon.level}  has appeared ! `);
 				break;
 		}
 	}
 
-	askForFight() {
-		rl.question("Do you want to fight the Johnemon ? (y/n)  :  ", (answer) => {
-			if (!['y', 'n'].includes(answer)) {
-				console.log("Invalid answer. Choose a number in the list");
-                this.askForFight();
-                return;
-			}
-            if ('n'.includes(answer)) {
-                console.log('No fight then ! See you tomorrow');
-                this.oneDayPasses();
-                return;
-            }
-
-            arena.startBattle();
-            return;
+	async askForFight() {
+		return new Promise((resolve) => {
+			rl.question("Do you want to fight? (Y/N) ", (answer) => {
+				if (!["Y", "N"].includes(answer.toUpperCase())) {
+					console.log("Invalid answer, please use Y or N");
+					return this.askForFight();
+				}
+				if (answer.toUpperCase() === "N") {
+					console.log("No fight");
+					resolve(false);
+					rl.close();
+				}
+				resolve(true);
+			});
 		});
 	}
 
-	addLog(newLog) {
-
-    }
+	addLog(newLog) {}
 }
 
 module.exports = JohnemonWorld;

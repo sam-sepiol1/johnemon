@@ -1,0 +1,17 @@
+{
+  "name": "Johnny",
+  "johnemonCollection": [
+    {
+      "name": "gobenja",
+      "level": 1,
+      "experienceMeter": 0,
+      "attackRange": 8,
+      "defenseRange": 1,
+      "healthPool": 15,
+      "catchPhrase": "Train hard, battle smart, and evolve beyond!"
+    }
+  ],
+  "healingItems": 15,
+  "reviveItems": 13,
+  "JOHNEBALLS": 100
+}

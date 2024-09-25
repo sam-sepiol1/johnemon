@@ -1,11 +1,12 @@
 // Modules Import
 const fs = require("fs");
-const rl = require('./readlineInterface');
+const rl = require("./readlineInterface");
 
 // File Import
-const Johnemon = require("./Johnemon");
-const JohnemonWorld = require("./JohnemonWorld");
-const johnemonMaster = require("./JohnemonMaster");
+const { log } = require("console");
+const Johnemon = require("./Johnemon.js");
+const JohnemonWorld = require("./JohnemonWorld.js");
+const johnemonMaster = require("./JohnemonMaster.js");
 
 // Game constant
 const player = new johnemonMaster();
@@ -17,8 +18,8 @@ function startGame() {
 		console.log(`Hello, ${answer}! Let your Johnemon adventure begin!`);
 		player.name = answer;
 		proposeFirstJohnemon();
-	});
 
+	});
 }
 
 function askForName() {
@@ -32,26 +33,40 @@ function proposeFirstJohnemon() {
 		console.log(`Johnemon ${index + 1}: Name: ${johnemon.name}, Level: ${johnemon.level}, Attack Range: ${johnemon.attackRange}, Defense Range: ${johnemon.defenseRange}, Health Pool: ${johnemon.healthPool}`);
 	});
 
-	rl.question("Choose your Johnemon : ", (answer) => {
-    let choice = parseInt(answer);
-		if (answer > johnemons.length || !typeof answer === "number") {
+	rl.question("Choose your Johnemon: ", (answer) => {
+		let choice = parseInt(answer);
+		
+		if (choice > johnemons.length || isNaN(choice)) {
 			console.log("Invalid answer. Choose a number in the list");
-			proposeFirstJohnemon();
+			return proposeFirstJohnemon();
 		}
 
-		player.johnemonCollection.push(johnemons[choice-1]);
-		console.log(`${player.name} received ${johnemons[choice-1].name} in their collection`);
-    game();
-
+		player.johnemonCollection.push(johnemons[choice - 1]);
+		console.log(`${player.name} received ${johnemons[choice - 1].name} in their collection`);
+		
+		saveGameState();
+		game();
 	});
+
+	
+
 }
 
-function game() {
-  world.oneDayPasses();
+async function game() {
+	world.oneDayPasses();
+	handleFight()
+}
+
+async function handleFight() {
+	const wantsToFight = await world.askForFight();
+	if (wantsToFight) {
+		console.log('fight start');	
+		rl.close();
+	}
 }
 
 function saveGameState() {
-
-};
+	fs.writeFileSync("gameState.json", JSON.stringify(player, null, 2));
+}
 
 startGame();

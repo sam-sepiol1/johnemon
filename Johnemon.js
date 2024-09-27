@@ -50,29 +50,15 @@ class Johnemon {
         return catchphrases[Math.floor(Math.random() * catchphrases.length)]
     }
 
-    attack(defender) {
-        const damage = this.getRandomNumber(this.attackRange * this.level, this.attackRange) - defender.defenseRange;
-        defender.healthPool -= damage;
-        console.log(`${this.name} attacked ${defender.name} and gave ${damage} damage`);
+    attack() {
+ 
     }
 
-    gainExperience(defender) {
-        const experienceGained = this.getRandomNumber(1, 5) * defender.level;
-        this.experienceMeter += experienceGained;
-
-        if (this.level >= 100) {
-            this.evolve();
-        }
-
-        console.log(`${this.name} has gained ${experienceGained} XP. It is now at ${this.experienceMeter} XP`);
+    gainExperience() {
+        
     }
 
     evolve() {
-        this.level++;
-        this.attackRange += this.getRandomNumber(1, 5)
-        this.defenseRange += this.getRandomNumber(1, 5)
-        this.healthPool += this.getRandomNumber(1, 5)
-
     }
 
     sayCatchPhrase() {

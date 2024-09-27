@@ -7,64 +7,105 @@ const { log } = require("console");
 const Johnemon = require("./Johnemon.js");
 const JohnemonWorld = require("./JohnemonWorld.js");
 const johnemonMaster = require("./JohnemonMaster.js");
+const JohnemonArena = require("./JohnemonArena.js");
 
 // Game constant
 const player = new johnemonMaster();
 const world = new JohnemonWorld();
+const startingJohnemons = [new Johnemon(), new Johnemon(), new Johnemon()];
 
+// Starting functions
+async function startGame() {
+	await askForName();
+	console.log(`Hello, ${player.name}`);
 
-function startGame() {
-	rl.question(`Welcome, ${askForName()}`, (answer) => {
-		console.log(`Hello, ${answer}! Let your Johnemon adventure begin!`);
-		player.name = answer;
-		proposeFirstJohnemon();
-
-	});
+	await proposeJohnemon();
+	// saveGameState();
+	game();
 }
 
 function askForName() {
-	return "What is your name, Johnemon Master ?  ";
+	return new Promise((resolve) => {
+		rl.question("Hello, what is your name ? :  ", (answer) => {
+			player.name = answer;
+			resolve();
+		});
+	});
 }
 
-function proposeFirstJohnemon() {
-	const johnemons = [new Johnemon(), new Johnemon(), new Johnemon()];
-
-	johnemons.forEach((johnemon, index) => {
-		console.log(`Johnemon ${index + 1}: Name: ${johnemon.name}, Level: ${johnemon.level}, Attack Range: ${johnemon.attackRange}, Defense Range: ${johnemon.defenseRange}, Health Pool: ${johnemon.healthPool}`);
+async function proposeJohnemon() {
+	startingJohnemons.forEach((johnemon, index) => {
+		console.log(`Johnemon ${index + 1}: Name: ${johnemon.name}, Level: ${johnemon.level}, Attack Range: ${johnemon.attackRange}, Defense Range: ${johnemon.defenseRange}`);
 	});
 
-	rl.question("Choose your Johnemon: ", (answer) => {
-		let choice = parseInt(answer);
-		
-		if (choice > johnemons.length || isNaN(choice)) {
-			console.log("Invalid answer. Choose a number in the list");
-			return proposeFirstJohnemon();
-		}
-
-		player.johnemonCollection.push(johnemons[choice - 1]);
-		console.log(`${player.name} received ${johnemons[choice - 1].name} in their collection`);
-		
-		saveGameState();
-		game();
-	});
-
-	
-
+	const choice = await choosingOptions();
+	player.johnemonCollection.push(startingJohnemons[choice - 1]);
 }
 
+function choosingOptions() {
+	return new Promise((resolve) => {
+		rl.question("Choose a Johnemon :  ", (answer) => {
+			let choice = parseInt(answer);
+
+			if (isNaN(choice) || choice > startingJohnemons.length || choice <= 0) {
+				console.log("Invalid answer. Please use numbers to choose.");
+				resolve(choosingOptions());
+			}
+
+			resolve(choice);
+		});
+	});
+}
+
+// Game functions
 async function game() {
-	world.oneDayPasses();
-	handleFight()
-}
+	if (world.oneDayPasses() === 0) {
+		console.log("Nothing happens");
+		game();
+	}
+	if (world.oneDayPasses() === 1) {
+		const wildJohnemon = new Johnemon();
+		console.log(`a Wild ${wildJohnemon.name} appears`);
 
-async function handleFight() {
-	const wantsToFight = await world.askForFight();
-	if (wantsToFight) {
-		console.log('fight start');	
-		rl.close();
+		const fightChoice = await askForFight();
+		if (fightChoice === "y") {
+			const fighter = await chooseYourJohnemon();
+
+			const arena = new JohnemonArena(fighter, wildJohnemon);
+			arena.startBattle();
+		}
 	}
 }
 
+function askForFight() {
+	return new Promise((resolve, reject) => {
+		rl.question("Do you want to fight ? (Y/N)   ", (answer) => {
+			if (!["y", "n"].includes(answer)) {
+				console.log("Invalid answer, please use Y or N to answer");
+				resolve(askForFight());
+			}
+			resolve(answer);
+		});
+	});
+}
+
+async function chooseYourJohnemon() {
+	return await new Promise((resolve, reject) => {
+		player.showCollection();
+
+		rl.question("Which Johnemon do you to fight with ?", (answer) => {
+			let choice = parseInt(answer);
+			if (isNaN(choice) || choice > player.johnemonCollection.length) {
+				console.log("Invalid answer. Please use numbers to choose.");
+				resolve(chooseYourJohnemon());
+			}
+
+			resolve(player.johnemonCollection[choice - 1]);
+		});
+	});
+}
+
+// Save functions
 function saveGameState() {
 	fs.writeFileSync("gameState.json", JSON.stringify(player, null, 2));
 }

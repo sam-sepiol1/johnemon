@@ -1,24 +1,21 @@
+// Import module
 const { log } = require('console');
-const rl = require ('./readlineInterface');
-const data = require ('./gameState.json');
-const johnemonMaster = require('./JohnemonMaster.js');
 
-const player = new johnemonMaster(data.name, data.johnemonCollection, data.healingItems, data.reviveItems, data.JOHNEBALLS);
 
 
 
 class JohnemonArena {
 
   constructor(johnemon_1, johnemon_2) {
-
+    this.fighter = johnemon_1;
+    this.opponent = johnemon_2;
   }
   chooseJohnemon() {
-    console.log(player.name);
-    
+
   }
 
   startBattle() {
-
+     
   }
 
 
@@ -60,7 +57,7 @@ class JohnemonArena {
   }
 }
 
-const arena = new JohnemonArena();
-arena.chooseJohnemon()
+
 
 module.exports = JohnemonArena
+

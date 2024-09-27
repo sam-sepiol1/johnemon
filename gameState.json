@@ -1,17 +1,17 @@
 {
-  "name": "Johnny",
+  "name": "popopopopo",
   "johnemonCollection": [
     {
-      "name": "gobenja",
+      "name": "Thija",
       "level": 1,
       "experienceMeter": 0,
-      "attackRange": 8,
+      "attackRange": 7,
       "defenseRange": 1,
-      "healthPool": 15,
-      "catchPhrase": "Train hard, battle smart, and evolve beyond!"
+      "healthPool": 20,
+      "catchPhrase": "Power up, team up, and unleash your true potential!"
     }
   ],
-  "healingItems": 15,
-  "reviveItems": 13,
-  "JOHNEBALLS": 100
+  "healingItems": 5,
+  "reviveItems": 3,
+  "JOHNEBALLS": 10
 }

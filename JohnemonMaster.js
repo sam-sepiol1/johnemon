@@ -7,9 +7,15 @@ class JohnemonMaster {
 		this.JOHNEBALLS = JOHNEBALLS || 10;
 	}
 
-	renameJohnemon(johnemon) {}
+	renameJohnemon(johnemon, newName) {
+		const index = this.johnemonCollection.findIndex(j => j === johnemon);
+		if (index !== -1) {
+			this.johnemonCollection[index].name = newName;
+		}
+	}
 
-	healJohnemon(johnemon) {}
+	healJohnemon(johnemon) {
+	}
 
 	reviveJohnemon(johnemon) {}
 

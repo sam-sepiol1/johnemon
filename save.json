@@ -1,0 +1,18 @@
+{
+  "name": "Test",
+  "johnemonCollection": [
+    {
+      "name": "imeno",
+      "level": 1,
+      "experienceMeter": 0,
+      "attackRange": 2,
+      "defenseRange": 3,
+      "healthPool": 13,
+      "catchPhrase": "Catch 'em all, one adventure at a time!",
+      "maxHealth": 13
+    }
+  ],
+  "healingItems": 5,
+  "reviveItems": 3,
+  "JOHNEBALLS": 10
+}

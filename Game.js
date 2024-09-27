@@ -14,13 +14,14 @@ const player = new johnemonMaster();
 const world = new JohnemonWorld();
 const startingJohnemons = [new Johnemon(), new Johnemon(), new Johnemon()];
 
+
 // Starting functions
 async function startGame() {
+
 	await askForName();
 	console.log(`Hello, ${player.name}`);
 
 	await proposeJohnemon();
-	// saveGameState();
 	game();
 }
 
@@ -40,6 +41,7 @@ async function proposeJohnemon() {
 
 	const choice = await choosingOptions();
 	player.johnemonCollection.push(startingJohnemons[choice - 1]);
+	saveGameState();
 }
 
 function choosingOptions() {
@@ -66,28 +68,16 @@ async function game() {
 	if (world.oneDayPasses() === 1) {
 		const wildJohnemon = new Johnemon();
 		console.log(`a Wild ${wildJohnemon.name} appears`);
+		console.log(`Choose your Johnemon`);
 
-		const fightChoice = await askForFight();
-		if (fightChoice === "y") {
 			const fighter = await chooseYourJohnemon();
+
 
 			const arena = new JohnemonArena(fighter, wildJohnemon);
 			arena.startBattle();
 		}
 	}
-}
 
-function askForFight() {
-	return new Promise((resolve, reject) => {
-		rl.question("Do you want to fight ? (Y/N)   ", (answer) => {
-			if (!["y", "n"].includes(answer)) {
-				console.log("Invalid answer, please use Y or N to answer");
-				resolve(askForFight());
-			}
-			resolve(answer);
-		});
-	});
-}
 
 async function chooseYourJohnemon() {
 	return await new Promise((resolve, reject) => {
@@ -107,7 +97,7 @@ async function chooseYourJohnemon() {
 
 // Save functions
 function saveGameState() {
-	fs.writeFileSync("gameState.json", JSON.stringify(player, null, 2));
+	fs.writeFileSync("save.json", JSON.stringify(player, null, 2));
 }
 
 startGame();

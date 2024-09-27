@@ -15,6 +15,7 @@ class JohnemonArena {
   }
 
   startBattle() {
+     console.log(this.fighter.name);
      
   }
 

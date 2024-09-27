@@ -3,12 +3,14 @@ const Johnemon = require('./Johnemon')
 
 class JohnemonWorld {
 	constructor() {
-		this.day = 0;
+		this.day = 1;
 		this.logs = [];
 	}
 
 	oneDayPasses() {
 		this.day++;
+
+		
 		const event = Math.floor(Math.random() * 2);
 
 		switch (event) {

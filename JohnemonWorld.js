@@ -9,26 +9,16 @@ class JohnemonWorld {
 
 	oneDayPasses() {
 		this.day++;
-
-		
-		const event = Math.floor(Math.random() * 2);
-
-		switch (event) {
-			case 0:
-				// Nothing happens
-				return 0;
-				break;
-			case 1:
-				// Wild Johnemon appears
-				return 1;
-				break;
-
-		}
 	}
 
 	randomizeEvent() {}
 
-	addLog(newLog) {}
+	addLog(newLog) {
+		const date = new Date();
+		const logEntry = `Day ${this.day}: ${newLog} saved on ${date}`;
+		this.logs.push(logEntry);
+		console.log(logEntry);
+	}
 }
 
 module.exports = JohnemonWorld;

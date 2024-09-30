@@ -26,6 +26,7 @@ class JohnemonMaster {
 			console.log("No more items left");
 			return;
 		}
+
 		this.johnemonCollection[index].healthPool = this.johnemonCollection[index].maxHealth;
 		this.healingItems--;
 	}

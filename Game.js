@@ -10,94 +10,53 @@ const johnemonMaster = require("./JohnemonMaster.js");
 const JohnemonArena = require("./JohnemonArena.js");
 
 // Game constant
-const player = new johnemonMaster();
-const world = new JohnemonWorld();
 const startingJohnemons = [new Johnemon(), new Johnemon(), new Johnemon()];
 
-
 // Starting functions
+
+async function getPlayerName() {
+	return new Promise((resolve) => {
+		rl.question("Enter your name: ", (name) => {
+			resolve(name);
+		});
+	});
+}
+
 async function startGame() {
+	if (fs.existsSync("save.json")) {
+		rl.question("A saved game was found. Do you want to load it? (yes/no): ", async (answer) => {
+			if (!['yes', 'no'].includes(answer.toLowerCase())) {
+				log('Invalid answer')
+				return startGame();
+			}
+			if (answer.toLowerCase() === 'yes') {
+				console.log('Save game loaded');
 
-	await askForName();
-	console.log(`Hello, ${player.name}`);
 
-	await proposeJohnemon();
-	game();
-}
-
-function askForName() {
-	return new Promise((resolve) => {
-		rl.question("Hello, what is your name ? :  ", (answer) => {
-			player.name = answer;
-			resolve();
-		});
-	});
-}
-
-async function proposeJohnemon() {
-	startingJohnemons.forEach((johnemon, index) => {
-		console.log(`Johnemon ${index + 1}: Name: ${johnemon.name}, Level: ${johnemon.level}, Attack Range: ${johnemon.attackRange}, Defense Range: ${johnemon.defenseRange}`);
-	});
-
-	const choice = await choosingOptions();
-	player.johnemonCollection.push(startingJohnemons[choice - 1]);
-	saveGameState();
-}
-
-function choosingOptions() {
-	return new Promise((resolve) => {
-		rl.question("Choose a Johnemon :  ", (answer) => {
-			let choice = parseInt(answer);
-
-			if (isNaN(choice) || choice > startingJohnemons.length || choice <= 0) {
-				console.log("Invalid answer. Please use numbers to choose.");
-				resolve(choosingOptions());
+				// TODO implement the function 
+				loadGameState();
 			}
 
-			resolve(choice);
+
+			const playerName = await getPlayerName();
+			const player = new johnemonMaster(playerName);
+			log(`Welcome, ${playerName}! Your journey begins now.`);
+			
+			initializeGame();
+
 		});
-	});
-}
-
-// Game functions
-async function game() {
-	if (world.oneDayPasses() === 0) {
-		console.log("Nothing happens");
-		game();
 	}
-	if (world.oneDayPasses() === 1) {
-		const wildJohnemon = new Johnemon();
-		console.log(`a Wild ${wildJohnemon.name} appears`);
-		console.log(`Choose your Johnemon`);
-
-			const fighter = await chooseYourJohnemon();
-
-
-			const arena = new JohnemonArena(fighter, wildJohnemon);
-			arena.startBattle();
-		}
-	}
-
-
-async function chooseYourJohnemon() {
-	return await new Promise((resolve, reject) => {
-		player.showCollection();
-
-		rl.question("Which Johnemon do you to fight with ?", (answer) => {
-			let choice = parseInt(answer);
-			if (isNaN(choice) || choice > player.johnemonCollection.length) {
-				console.log("Invalid answer. Please use numbers to choose.");
-				resolve(chooseYourJohnemon());
-			}
-
-			resolve(player.johnemonCollection[choice - 1]);
-		});
-	});
+	
 }
 
-// Save functions
-function saveGameState() {
-	fs.writeFileSync("save.json", JSON.stringify(player, null, 2));
+function loadGameState(params) {
+	
 }
+
+function initializeGame() {
+	
+}
+
+
 
 startGame();
